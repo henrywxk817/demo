@@ -30,8 +30,8 @@ const run = async () => {
 	loading.value = true
 	await correction(content.value).then(res =>{
 		if (res.status == 200) {
-				console.log(res.data.data)
-				result.value = res.data.data;
+				console.log(res.data)
+				result.value = res.data['choices'][0]["text"];
 				loading.value = false
 			} else {
 				loading.value = false
