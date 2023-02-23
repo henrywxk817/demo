@@ -1,6 +1,5 @@
 import axios, {AxiosInstance, AxiosError, AxiosResponse, AxiosRequestConfig} from 'axios';
 
-// const baseURL = 'http://10.123.4.228:8901/api/v1'
 const baseURL = 'http://localhost:7401/api/v1'
 
 const service:AxiosInstance = axios.create({
