@@ -1,0 +1,14 @@
+/backend/static/
+/backend/logs
+/website/demo/node_modules/
+/website/demo/dist/
+
+*/.idea/
+*/__pycache__/
+*/.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.log
