@@ -31,7 +31,7 @@ const run = async () => {
 	await correction(content.value).then(res =>{
 		if (res.status == 200) {
 				console.log(res.data)
-				result.value = res.data['choices'][0]["text"];
+				result.value = "[修正后的文本]:\n" + res.data['choices'][0]["text"];
 				loading.value = false
 			} else {
 				loading.value = false
