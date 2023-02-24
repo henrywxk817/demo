@@ -2,6 +2,8 @@ import axios, {AxiosInstance, AxiosError, AxiosResponse, AxiosRequestConfig} fro
 
 // const baseURL = 'http://localhost:7401/api/v1'
 const baseURL = 'https://api.openai.com/v1'
+const openai_api_key = process.env['openai_api_key']
+
 
 const service:AxiosInstance = axios.create({
     baseURL: baseURL,
@@ -10,7 +12,7 @@ const service:AxiosInstance = axios.create({
 
 service.interceptors.request.use(
     (config: AxiosRequestConfig) => {
-        config.headers.Authorization = 'Bearer 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'
+        config.headers.Authorization = 'Bearer ' + openai_api_key
         config.headers['content-type'] = 'application/json'
         return config;
     },

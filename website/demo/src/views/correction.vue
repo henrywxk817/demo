@@ -36,6 +36,9 @@ const run = async () => {
 			} else {
 				loading.value = false
 			}
+	}).catch(err =>{
+		result.value = err
+		loading.value = false
 	})
 }
 
