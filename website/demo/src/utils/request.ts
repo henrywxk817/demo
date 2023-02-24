@@ -1,4 +1,5 @@
 import axios, {AxiosInstance, AxiosError, AxiosResponse, AxiosRequestConfig} from 'axios';
+import process from 'process'
 
 // const baseURL = 'http://localhost:7401/api/v1'
 const baseURL = 'https://api.openai.com/v1'
