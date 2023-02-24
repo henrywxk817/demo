@@ -1,6 +1,4 @@
 import axios, {AxiosInstance, AxiosError, AxiosResponse, AxiosRequestConfig} from 'axios';
-import { ElFormItem } from 'element-plus';
-// import process from 'process'
 
 // const baseURL = 'http://localhost:7401/api/v1'
 const baseURL = 'https://api.openai.com/v1'
@@ -9,7 +7,7 @@ const openai_api_key = import.meta.env['VITE_OPENAI_API_KEY']
 
 const service:AxiosInstance = axios.create({
     baseURL: baseURL,
-    timeout: 15000
+    timeout: 1500000
 });
 
 service.interceptors.request.use(
