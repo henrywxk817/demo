@@ -3,7 +3,7 @@ import axios, {AxiosInstance, AxiosError, AxiosResponse, AxiosRequestConfig} fro
 
 // const baseURL = 'http://localhost:7401/api/v1'
 const baseURL = 'https://api.openai.com/v1'
-const openai_api_key = import.meta.env['openai_api_key']
+const openai_api_key = import.meta.env['VITE_OPENAI_API_KEY']
 
 
 const service:AxiosInstance = axios.create({
