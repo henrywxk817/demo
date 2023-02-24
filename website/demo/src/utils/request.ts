@@ -1,4 +1,5 @@
 import axios, {AxiosInstance, AxiosError, AxiosResponse, AxiosRequestConfig} from 'axios';
+import { ElFormItem } from 'element-plus';
 // import process from 'process'
 
 // const baseURL = 'http://localhost:7401/api/v1'
@@ -19,7 +20,7 @@ service.interceptors.request.use(
     },
     (error: AxiosError) => {
         console.log(error);
-        return Promise.reject();
+        return Promise.reject("error");
     }
 );
 
@@ -28,12 +29,18 @@ service.interceptors.response.use(
         if (response.status === 200) {
             return response;
         } else {
-            Promise.reject();
+            if (response.status === 429) {
+                Promise.reject("请求太过频繁，请稍后重试");
+            }
+            else{
+                Promise.reject("error");
+            }
+           
         }
     },
     (error: AxiosError) => {
         console.log(error);
-        return Promise.reject();
+        return Promise.reject("error");
     }
 );
 

@@ -22,7 +22,7 @@ export const correction = (
     data: {
       "model": "text-davinci-edit-001",
       "input": content,
-      "instruction": "修改错别字",
+      "instruction": "修改错别字和词语",
     }
   })
 }
