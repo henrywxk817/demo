@@ -7,11 +7,10 @@
 		<div style="margin-top: 10px;">
 			<el-button type="primary" @click="run">纠错</el-button>
 		</div>
+		<div class="error">{{ error }}</div>
 		<div style="margin-top: 10px;">
-			<el-input v-model="result" placeholder="纠错后的文字" disabled='true' :autosize="{ minRows: 4}" type="textarea" class="handle-input mr10"></el-input>
+			<div id="view" class="code-contrast"></div>
 		</div>
-
-
 	</div>
 
 
@@ -20,24 +19,47 @@
 <script setup lang="ts" name="correction">
 import { ref, reactive, onMounted} from 'vue';
 import { correction} from '../api/index';
+import CodeMirror from "codemirror";
+import "codemirror/lib/codemirror.css";
+import "codemirror/addon/merge/merge.js"
+import "codemirror/addon/merge/merge.css"
+import DiffMatchPatch from "diff-match-patch";
+window.diff_match_patch = DiffMatchPatch;
+window.DIFF_DELETE = -1;
+window.DIFF_INSERT = 1;
+window.DIFF_EQUAL = 0;
 
 const loading = ref(false)
-const query = reactive({content: ''});
-const result = ref('')
 const content = ref('')
+const error = ref('')
 
 const run = async () => {
 	loading.value = true
+	let target = document.getElementById("view");
 	await correction(content.value).then(res =>{
 		if (res.status == 200) {
 				console.log(res.data)
-				result.value = "[修正后的文本]:\n" + res.data['choices'][0]["text"];
+				var correct_content = res.data['choices'][0]["text"]
+				CodeMirror.MergeView(target, {
+					value: content.value,//上次内容
+					origLeft: null,
+					orig: correct_content,//本次内容
+					lineNumbers: true,//显示行号
+					mode: "text/html",
+					hightlightDifference: true,
+					connect: "align",
+					revertButtons:false,
+					readOnly: true,
+					theme: "dracula"
+					});
 				loading.value = false
+				error.value = ''
 			} else {
+				error.value = "HTTP Error: " + res.status
 				loading.value = false
 			}
 	}).catch(err =>{
-		result.value = err
+		error.value = err
 		loading.value = false
 	})
 }
@@ -46,6 +68,24 @@ const run = async () => {
 <style>
 .container{
 	height: 100%;
+	min-height: 400px;
+}
+.code-contrast {
+  margin-top: 20px;
+  width:100%;
+  text-align: left;
+}
+
+.CodeMirror-merge-gap{
+	width: 0;
+}
+.CodeMirror-merge-2pane .CodeMirror-merge-pane{
+	width: 100%;
+}
+
+.error{
+	margin-top: 20px;
+	color: red;
 }
 
 </style>
