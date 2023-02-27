@@ -83,6 +83,10 @@ const run = async () => {
 	width: 100%;
 }
 
+.CodeMirror-merge-gap{
+	width: 0;
+}
+
 .error{
 	margin-top: 20px;
 	color: red;
