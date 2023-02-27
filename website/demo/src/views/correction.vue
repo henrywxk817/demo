@@ -76,15 +76,19 @@ const run = async () => {
   text-align: left;
 }
 
-.CodeMirror-merge-gap{
-	width: 0;
+.CodeMirror-merge-2pane .CodeMirror-merge-gap{
+	width: 0%;
 }
 .CodeMirror-merge-2pane .CodeMirror-merge-pane{
 	width: 100%;
 }
 
-.CodeMirror-merge-gap{
-	width: 0;
+.CodeMirror-merge-r-deleted{
+	color: red;
+}
+
+.CodeMirror-merge-r-inserted{
+	color: blue;
 }
 
 .error{
