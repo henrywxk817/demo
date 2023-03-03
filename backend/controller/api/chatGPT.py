@@ -8,7 +8,7 @@ router = APIRouter()
 @router.post('/correction/', response_model=BaseRes)
 def correction(content: str = Body(..., embed=True)) -> BaseRes:
     try:
-        response = bot_factory.create_bot().reply(content)
-        return BaseRes(data=response)
+        success, response = bot_factory.create_bot().reply(content)
+        return BaseRes(data={"success": success, "response": response})
     except Exception as e:
         return BaseRes(status=0, error=str(e))
