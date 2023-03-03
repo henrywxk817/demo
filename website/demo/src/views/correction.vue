@@ -38,22 +38,28 @@ const run = async () => {
 	let target = document.getElementById("view");
 	await correction(content.value).then(res =>{
 		if (res.status == 200) {
-				console.log(res.data)
-				var correct_content = res.data['choices'][0]["text"]
-				CodeMirror.MergeView(target, {
-					value: content.value,//上次内容
-					origLeft: null,
-					orig: correct_content,//本次内容
-					lineNumbers: true,//显示行号
-					mode: "text/html",
-					hightlightDifference: true,
-					connect: "align",
-					revertButtons:false,
-					readOnly: true,
-					theme: "dracula"
-					});
-				loading.value = false
-				error.value = ''
+				if(res.data.data && res.data.data.success){
+					var correct_content = res.data.data.response
+					CodeMirror.MergeView(target, {
+						value: content.value,//上次内容
+						origLeft: null,
+						orig: correct_content,//本次内容
+						lineNumbers: true,//显示行号
+						mode: "text/html",
+						hightlightDifference: true,
+						connect: "align",
+						revertButtons:false,
+						readOnly: true,
+						theme: "dracula"
+						});
+					loading.value = false
+					error.value = ''
+				}
+				else{
+					error.value = "HTTP Error: " + res.data.data.response
+					loading.value = false
+				}
+				
 			} else {
 				error.value = "HTTP Error: " + res.status
 				loading.value = false
