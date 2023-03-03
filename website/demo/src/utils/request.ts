@@ -1,8 +1,7 @@
 import axios, {AxiosInstance, AxiosError, AxiosResponse, AxiosRequestConfig} from 'axios';
 
 // const baseURL = 'http://localhost:7401/api/v1'
-const baseURL = 'https://api.openai.com/v1'
-const openai_api_key = import.meta.env['VITE_OPENAI_API_KEY']
+const baseURL = 'https://www.henryapi.top/api/v1'
 
 
 const service:AxiosInstance = axios.create({
@@ -12,8 +11,6 @@ const service:AxiosInstance = axios.create({
 
 service.interceptors.request.use(
     (config: AxiosRequestConfig) => {
-        config.headers.Authorization = 'Bearer ' + openai_api_key
-        config.headers['content-type'] = 'application/json'
         return config;
     },
     (error: AxiosError) => {
