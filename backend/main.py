@@ -2,9 +2,6 @@
 import os
 from utils.settings import get_settings
 
-if not os.path.exists(get_settings().static_path):
-    os.makedirs(get_settings().static_path)
-
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.cors import CORSMiddleware
