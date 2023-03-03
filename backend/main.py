@@ -11,7 +11,6 @@ import uvicorn
 
 def create_app() -> FastAPI:
     app = FastAPI()
-    app.mount('/static', StaticFiles(directory='./static'), name='static')
     app.debug = True
 
     app.add_middleware(
