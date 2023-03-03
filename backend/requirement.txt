@@ -1,5 +1,5 @@
 uvicorn==0.17.5
 pydantic==1.8.2
 fastapi==0.68.0
-openai
-colorlog
+openai==0.27.0
+colorlog==6.7.0

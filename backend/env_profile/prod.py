@@ -6,4 +6,3 @@ class Setting(BaseSetting):
         "host": "0.0.0.0",
         "port": 7401
     }
-    open_aic_api_key = "open_aic_api_key"

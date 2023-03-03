@@ -1,39 +1,37 @@
 from bot.bot import Bot
 from utils.logger import logger
 import openai
-import time
-from utils.settings import get_settings
+import os
 
 
 class OpenAIBot(Bot):
     def __init__(self):
-        openai.api_key = get_settings().open_aic_api_key
+        openai.api_key = os.environ['VITE_OPENAI_API_KEY']
 
     def reply(self, query):
-        # acquire reply content
-        logger.debug("[OPEN_AI] query={}".format(query))
-        reply_content = self.reply_text(query, 0)
-        return reply_content
+        logger.debug("[OPEN_AI] session query={}".format(query))
+        success, reply_content = self.reply_text(query)
+        logger.debug("[OPEN_AI] query={}, reply_cont={}".format(query, reply_content))
+        return success, reply_content
 
-    def reply_text(self, query, retry_count=0):
+    def reply_text(self, content):
         try:
-            response = openai.Edit.create(
-                    model="text-davinci-edit-001",
-                    input=query,
-                    instruction='修改错别字')
-            res_content = response.choices[0]['text'].strip().replace('<|endoftext|>', '')
-            logger.info("[OPEN_AI] reply={}".format(res_content))
-            return res_content
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[{'role': "user", "content": content}]
+            )
+            res_content = response['choices'][0]['message']['content'].strip()
+            prompt_tokens = response['usage']['prompt_tokens']
+            completion_tokens = response['usage']['completion_tokens']
+            total_tokens = response['usage']['total_tokens']
+            logger.info(
+                f"[OPEN_AI] prompt_tokens={prompt_tokens} completion_tokens={completion_tokens} total_tokens={total_tokens}")
+            logger.debug("[OPEN_AI] reply={}".format(res_content))
+            return True, res_content
         except openai.error.RateLimitError as e:
             # rate limit exception
             logger.error(e)
-            if retry_count < 1:
-                time.sleep(5)
-                logger.error("[OPEN_AI] RateLimit exceed, 第{}次重试".format(retry_count+1))
-                return self.reply_text(query, retry_count+1)
-            else:
-                return "提问太快啦，请休息一下再问我吧"
+            return False, "提问太快啦，请休息一下再问我吧"
         except Exception as e:
-            # unknown exception
             logger.exception(e)
-            return "请再问我一次吧"
+            return False, "请再问我一次吧"

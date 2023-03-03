@@ -8,9 +8,9 @@ router = APIRouter()
 
 
 @router.post('/correction/', response_model=BaseRes)
-async def correction(content: str = Body(..., embed=True)) -> BaseRes:
+def correction(content: str = Body(..., embed=True)) -> BaseRes:
     try:
-        response = bot_factory.create_bot().reply(content)
+        response = bot_factory.create_bot().reply("修改错别字: " + content)
         return BaseRes(data=response)
     except Exception as e:
         logger.error(e)
