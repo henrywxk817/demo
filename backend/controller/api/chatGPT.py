@@ -12,7 +12,7 @@ limiter = Limiter(key_func=get_remote_address)
 # @limiter.limit("1/second")
 def correction(content: str = Body(..., embed=True)) -> BaseRes:
     try:
-        success, response = bot_factory.create_bot().reply(content)
+        success, response = bot_factory.create_bot().ask(content)
         return BaseRes(data={"success": success, "response": response})
     except Exception as e:
         return BaseRes(status=0, error=str(e))
