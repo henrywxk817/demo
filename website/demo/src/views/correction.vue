@@ -35,22 +35,25 @@ const error = ref('')
 
 const run = async () => {
 	loading.value = true
-	let target = document.getElementById("view");
+	var target = document.getElementById("view");
+	target.innerHTML = "";
 	await correction(content.value).then(res =>{
 		if (res.status == 200) {
 				if(res.data.data && res.data.data.success){
 					var correct_content = res.data.data.response
+					correct_content = correct_content.replace("修改后：", "").replace("修改后:", "")
 					CodeMirror.MergeView(target, {
 						value: content.value,//上次内容
 						origLeft: null,
 						orig: correct_content,//本次内容
 						lineNumbers: true,//显示行号
 						mode: "text/html",
-						hightlightDifference: true,
-						connect: "align",
+						hightlightDifference: "true",
+						connect: null,
 						revertButtons:false,
 						readOnly: true,
-						theme: "dracula"
+						theme: "dracula",
+						lineWrapping: true
 						});
 					loading.value = false
 					error.value = ''
@@ -78,13 +81,23 @@ const run = async () => {
 }
 .code-contrast {
   margin-top: 20px;
-  width:100%;
   text-align: left;
+}
+
+.CodeMirror{
+	height: auto;
 }
 
 .CodeMirror-merge-2pane .CodeMirror-merge-gap{
 	width: 0%;
+	display: none;
 }
+
+.CodeMirror-merge-2pane .CodeMirror-merge-editor{
+	display: none;
+	width: 0%;
+}
+
 .CodeMirror-merge-2pane .CodeMirror-merge-pane{
 	width: 100%;
 }
