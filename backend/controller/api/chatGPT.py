@@ -19,7 +19,7 @@ def correction(content: str = Body(..., embed=True)) -> BaseRes:
 
 
 @router.post('/ask_stream/', response_model=BaseRes)
-def ask_stream(messages: [] = Body(..., embed=True)) -> BaseRes:
+def ask_stream(messages: dict = Body(..., embed=True)) -> BaseRes:
     try:
         success, response = bot_factory.create_bot().ask_stream(messages)
         return BaseRes(data={"success": success, "response": response})
